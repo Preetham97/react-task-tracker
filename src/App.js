@@ -4,7 +4,12 @@ import Header from "./componenets/Header";
 import Button from "./componenets/Button";
 import Tasks from "./componenets/Tasks";
 import AddTask from "./componenets/AddTask";
+import Footer from "./componenets/Footer";
+import About from "./componenets/About";
+
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 
 function App() {
   const name = "Preetham!";
@@ -38,7 +43,7 @@ function App() {
       return data;
     }
 
-  const [showAddTask, setShowAddTask] = useState(false);
+const [showAddTask, setShowAddTask] = useState(false);
 
     //Add Task
     const addTask = async(task)=>{
@@ -89,7 +94,7 @@ function App() {
       setTasks(tasks.map((task)=> task.id === id ? {...task ,reminder: data.reminder}: task))
      }
   return (
-
+    <Router>
     <div className="container">
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -106,20 +111,39 @@ function App() {
         </a>
       </header> */}
       {/* <h1>Hello {name}</h1> */}
+      {/* <Button color = 'red' text = 'Hello Button Component'/> */}
+      {/* <Button /> */}
 
       <Header title = "Task Tracker!" onAdd = {()=> setShowAddTask(!showAddTask)} showAddTask = {showAddTask}/>
-      {showAddTask? <AddTask onAdd = {addTask}/>: "Please Add tasks via the 'Add a Task' button."}
 
-    {/* <Button color = 'red' text = 'Hello Button Component'/> */}
-      {/* <Button /> */}
-      
-      {tasks.length>0 ? (
+      {/* {showAddTask && <AddTask onAdd = {addTask}/>} */}
+      {/* : "Please Add tasks via the 'Add a Task' button."} */}
+      {/* {tasks.length>0 ? (
+      <Tasks tasks = {tasks} onDelete = {deleteTask} onToggle = {toggleReminder}/>
+      ) : (
+        "There are no Tasks to show!"
+        )
+        }  */}
+        
+      {/* <About/> */}
+      <Routes>
+        <Route path="/" exact element = {
+        <>
+        {showAddTask && <AddTask onAdd = {addTask}/>}
+        {tasks.length>0 ? (
       <Tasks tasks = {tasks} onDelete = {deleteTask} onToggle = {toggleReminder}/>
       ) : (
         "There are no Tasks to show!"
         )
         } 
+        </> 
+        }
+        />
+        <Route path='/about' element = {<About />}/>
+      </Routes>
+      <Footer/>  
     </div>
+    </Router>
   );
 }
 
